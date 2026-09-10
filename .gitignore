@@ -19,3 +19,21 @@ __pycache__/
 
 # Local reverse-engineering fixtures and experiment reports.
 /docs/research/
+
+# Historical/private research documents retained only in the local archive.
+/docs/*
+!/docs/build-baseline.md
+!/docs/diagnostic-firmware.md
+!/docs/public-status.md
+!/docs/public-flashing.md
+!/docs/images/
+!/docs/images/zt3l-programmer-user-reference.png
+
+# Private reverse-engineering scripts retained only in the local archive.
+/scripts/emulate_tuya_boot.sh
+/scripts/emulate_yandex_mode.sh
+/scripts/ghidra/
+/scripts/inspect_yandex_ota.py
+/scripts/prepare_first_flash.py
+/scripts/prepare_pairing_flash.py
+/scripts/simulate_yandex_interview.py
