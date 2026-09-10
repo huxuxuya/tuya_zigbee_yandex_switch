@@ -1,0 +1,19 @@
+name: public-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  host-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and run gesture smoke test
+        run: |
+          cc -std=c99 -Wall -Wextra -Werror -pedantic \
+            -Ifirmware/application \
+            firmware/application/gestures.c \
+            firmware/application/tests/test_gestures.c \
+            -o /tmp/wall-switch-test-gestures
+          /tmp/wall-switch-test-gestures

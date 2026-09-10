@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+.venv/
+/build/
+/firmware/upstream/build/
+/firmware/upstream/telink_tools/
+/firmware/upstream/stub_nvm_data/
+/dumps/private/
+
+# Private device dumps and raw hardware logs.
+/dumps/*.bin
+/dumps/*.log
+
+# Vendor/third-party binary distribution artifacts.
+*.dmg
+/tools/wch-driver/
+/tools/tlsrpgm/*.bin
+
+# Local reverse-engineering fixtures and experiment reports.
+/docs/research/
