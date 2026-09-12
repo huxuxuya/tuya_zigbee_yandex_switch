@@ -6,6 +6,7 @@
 #include "telink_size_t_hack.h"
 #include "hal/zigbee.h"
 #include "hal/timer.h"
+#include "hal/telink_zigbee_hal.h"
 #include "application/yandex_diagnostic.h"
 #include "application/telink/network_rejoin.inc"
 
@@ -116,11 +117,17 @@ int main(void) {
             hal_zigbee_start_network_steering();
         }
         if (!tl_stackBusy() && zb_isTaskDone()) {
+            /* Arm every registered button GPIO before suspend.  Timer-only
+             * wakeup loses a short press that starts and ends while asleep.
+             * Re-arm on every pass because press and release use opposite
+             * wake levels. */
+            telink_gpio_hal_setup_wake_ups();
             ev_timer_event_t *timer = ev_timer_nearestGet();
             /* Keep 500 ms network blink smooth while steering. */
             uint32_t max_sleep = state != HAL_ZIGBEE_NETWORK_JOINED ? 250 : 1000;
             uint32_t duration = timer && timer->timeout < max_sleep ? timer->timeout : max_sleep;
-            drv_pm_sleep(PM_SLEEP_MODE_SUSPEND, PM_WAKEUP_SRC_TIMER, duration);
+            drv_pm_sleep(PM_SLEEP_MODE_SUSPEND,
+                         PM_WAKEUP_SRC_PAD | PM_WAKEUP_SRC_TIMER, duration);
         }
     }
 }
